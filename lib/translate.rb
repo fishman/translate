@@ -1,5 +1,5 @@
-module Translate
-end
+module Translate; end
+
 
 require File.join(File.dirname(__FILE__), "translate_controller")
 require File.join(File.dirname(__FILE__), "translate_helper")
