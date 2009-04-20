@@ -54,11 +54,11 @@ class TranslateController < ActionController::Base
     return if params[:filter] == 'all'
     @keys.reject! do |key|
       case params[:filter]
-      when 'untranslated'
+      when 'untranslated' then
         lookup(@to_locale, key).present?
-      when 'translated'
+      when 'translated' then
         lookup(@to_locale, key).blank?
-      when 'changed'
+      when 'changed' then
         old_from_text(key).blank? || lookup(@from_locale, key) == old_from_text(key)
       else
         raise "Unknown filter '#{params[:filter]}'"
@@ -70,9 +70,9 @@ class TranslateController < ActionController::Base
     return if params[:key_pattern].blank?
     @keys.reject! do |key|
       case params[:key_type]
-      when "starts_with":
+      when "starts_with" then
         !key.starts_with?(params[:key_pattern])
-      when "contains":
+      when "contains" then
         key.index(params[:key_pattern]).nil?
       else
         raise "Unknown key_type '#{params[:key_type]}'"
@@ -84,9 +84,9 @@ class TranslateController < ActionController::Base
     return if params[:text_pattern].blank?
     @keys.reject! do |key|
       case params[:text_type]
-      when 'contains':
+      when 'contains' then
         !lookup(@from_locale, key).present? || !lookup(@from_locale, key).to_s.downcase.index(params[:text_pattern].downcase)
-      when 'equals':
+      when 'equals' then
         !lookup(@from_locale, key).present? || lookup(@from_locale, key).to_s.downcase != params[:text_pattern].downcase
       else
         raise "Unknown text_type '#{params[:text_type]}'"
@@ -97,9 +97,9 @@ class TranslateController < ActionController::Base
   def sort_keys
     params[:sort_by] ||= "key"
     case params[:sort_by]
-    when "key":
+    when "key" then
       @keys.sort!
-    when "text":
+    when "text" then
       @keys.sort! do |key1, key2|
         if lookup(@from_locale, key1).present? && lookup(@from_locale, key2).present?
           lookup(@from_locale, key1).to_s.downcase <=> lookup(@from_locale, key2).to_s.downcase
